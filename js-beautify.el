@@ -11,25 +11,20 @@
   :type '(string)
   :group 'js-beautify)
 
-(defcustom js-beautify-path "~/projects/js-beautify/python/jsbeautifier.py"
-  "Path to jsbeautifier python file"
-  :type '(string)
-  :group 'js-beautify)
 
 (defun js-beautify ()
-  "Beautify a region of javascript using the code from jsbeautify.org"
+  "Beautify a region of javascript using js-beautify"
   (interactive)
   (let ((orig-point (point)))
     (unless (mark)
       (mark-defun))
     (shell-command-on-region (point)
-                             (mark)
-                             (concat "python "
-                                     js-beautify-path
-                                     " --stdin "
-                                     js-beautify-args)
-                             nil t)
+                            (mark)
+                            (concat "js-beautify -f - "  ; Added -f - for stdin
+                                    js-beautify-args)
+                            nil t)
     (goto-char orig-point)))
+
 
 (provide 'js-beautify)
 ;;; js-beautify.el ends here
